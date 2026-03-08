@@ -1,6 +1,7 @@
 # TermSync — Implementation Phases & Claude Code Prompts
 
 ## Rules for Every Session
+
 - Start each session with: "Read CLAUDE.md"
 - Use `/clear` between phases
 - Run `pnpm check` at the end of every phase before finishing
@@ -10,28 +11,31 @@
 ---
 
 ## Phase 0: Project Scaffolding
-Status: NOT STARTED
+
+Status: COMPLETE
 
 ### Checklist
-- [ ] Init pnpm workspace with Turborepo
-- [ ] Create apps/web (Next.js, React 19 canary, App Router)
-- [ ] Create apps/api (NestJS)
-- [ ] Create packages/contracts (openapi-typescript codegen + gen:types script)
-- [ ] TypeScript strict in all packages (`strict: true`, `noUncheckedIndexedAccess: true`, `exactOptionalPropertyTypes: true`)
-- [ ] ESLint strict in all packages (typescript-eslint `recommended-type-checked` + `stylistic`)
-- [ ] Prettier config shared across all packages
-- [ ] Husky: pre-commit (lint + typecheck), pre-push (full pnpm check)
-- [ ] Root turbo.json with lint, typecheck, test:unit, build, check pipelines
-- [ ] Root package.json scripts: lint, typecheck, test:unit, check, build, gen:types
-- [ ] apps/web: Tailwind v4, shadcn/ui, React Flow (@xyflow/react), TanStack Query v5, Zustand v5, React Hook Form, Zod, Vitest, Playwright
-- [ ] apps/web: `viewTransition: true` in next.config.ts
-- [ ] apps/api: Prisma, class-validator, class-transformer, Passport (jwt + google + github), @nestjs/swagger, @nestjs/throttler, @nestjs/schedule, BullMQ, Helmet, Jest, Supertest
-- [ ] docker-compose.yml with PostgreSQL 16 + Redis 7 (health checks included)
-- [ ] Prisma init with base User model
-- [ ] Verify: `pnpm check` passes on empty scaffolding
-- [ ] Verify: `docker compose up` starts DB and Redis healthy
+
+- [x] Init pnpm workspace with Turborepo
+- [x] Create apps/web (Next.js, React 19 canary, App Router)
+- [x] Create apps/api (NestJS)
+- [x] Create packages/contracts (openapi-typescript codegen + gen:types script)
+- [x] TypeScript strict in all packages (`strict: true`, `noUncheckedIndexedAccess: true`, `exactOptionalPropertyTypes: true`)
+- [x] ESLint strict in all packages (typescript-eslint `recommended-type-checked` + `stylistic`)
+- [x] Prettier config shared across all packages
+- [x] Husky: pre-commit (lint + typecheck), pre-push (full pnpm check)
+- [x] Root turbo.json with lint, typecheck, test:unit, build, check pipelines
+- [x] Root package.json scripts: lint, typecheck, test:unit, check, build, gen:types
+- [x] apps/web: Tailwind v4, shadcn/ui, React Flow (@xyflow/react), TanStack Query v5, Zustand v5, React Hook Form, Zod, Vitest, Playwright
+- [x] apps/web: `viewTransition: true` in next.config.ts
+- [x] apps/api: Prisma, class-validator, class-transformer, Passport (jwt + google + github), @nestjs/swagger, @nestjs/throttler, @nestjs/schedule, BullMQ, Helmet, Jest, Supertest
+- [x] docker-compose.yml with PostgreSQL 16 + Redis 7 (health checks included)
+- [x] Prisma init with base User model
+- [x] Verify: `pnpm check` passes on empty scaffolding
+- [x] Verify: `docker compose up` starts DB and Redis healthy
 
 ### Claude Code Prompt
+
 ```
 Read CLAUDE.md.
 
@@ -59,11 +63,13 @@ When finished, go through the Phase 0 checklist in PHASE-PROMPTS.md and mark eve
 ---
 
 ## Phase 1: Authentication
+
 Status: NOT STARTED
 
 ### Checklist
 
 **Backend**
+
 - [ ] Prisma User model (id, email, passwordHash, name, provider, providerId, role, emailVerified, createdAt, updatedAt)
 - [ ] Prisma RefreshToken model with hashed storage
 - [ ] Use db-architect subagent for schema review before migration
@@ -96,6 +102,7 @@ Status: NOT STARTED
 - [ ] security-auditor subagent run on auth module
 
 **Frontend**
+
 - [ ] Generate OpenAPI types: `pnpm gen:types`
 - [ ] middleware.ts protecting `(protected)` and `(paid)` route groups (edge runtime, jose)
 - [ ] entities/user: User type from contracts, Zustand store (user + subscription)
@@ -111,10 +118,12 @@ Status: NOT STARTED
 - [ ] code-reviewer subagent run on all new frontend files
 
 **Shared**
+
 - [ ] OpenAPI types regenerated after all endpoints finalized
 - [ ] Frontend api-client uses types exclusively from @termsync/contracts
 
 ### Claude Code Prompt
+
 ```
 Read CLAUDE.md and apps/api/CLAUDE.md.
 
@@ -158,11 +167,13 @@ When finished, go through the Phase 1 checklist in PHASE-PROMPTS.md and mark eve
 ---
 
 ## Phase 2: Synonym Tree with React Flow
+
 Status: NOT STARTED
 
 ### Checklist
 
 **Backend**
+
 - [ ] Use api-documenter subagent for Terms + Synonyms endpoints before implementation
 - [ ] Use db-architect subagent for Term + SynonymNode + SynonymEdge Prisma models (with indexes)
 - [ ] TermsModule: CRUD (create term, list user terms, delete term)
@@ -179,6 +190,7 @@ Status: NOT STARTED
 - [ ] test-writer subagent: unit tests for SynonymsService, LLMService; E2E tests
 
 **Frontend**
+
 - [ ] Lazy-load React Flow with next/dynamic + loading skeleton
 - [ ] Custom node types: TermNode (root), SynonymNode, LockedNode (free users at level 3)
 - [ ] Custom edge types with animated dashed lines
@@ -192,6 +204,7 @@ Status: NOT STARTED
 - [ ] test-writer subagent: unit tests for tree store, node components
 
 ### Claude Code Prompt
+
 ```
 Read CLAUDE.md, apps/api/CLAUDE.md, apps/web/CLAUDE.md.
 
@@ -237,11 +250,13 @@ When finished, go through the Phase 2 checklist in PHASE-PROMPTS.md and mark eve
 ---
 
 ## Phase 3: Article Search & Email Digest
+
 Status: NOT STARTED
 
 ### Checklist
 
 **Backend**
+
 - [ ] Use api-documenter subagent for Search + EmailPreferences endpoints
 - [ ] Prisma Article model (id, termId, title, url, source, snippet, publishedAt, createdAt)
 - [ ] Prisma EmailLog model (id, userId, termId, sentAt, articleCount)
@@ -261,6 +276,7 @@ Status: NOT STARTED
 - [ ] test-writer subagent: unit tests for RSS service, email service; E2E tests
 
 **Frontend**
+
 - [ ] Dashboard: article feed per term (title, source, snippet, link, published date)
 - [ ] Article cards with external link handling
 - [ ] "Last email sent" + "Next scheduled" indicators per term
@@ -269,6 +285,7 @@ Status: NOT STARTED
 - [ ] code-reviewer subagent + test-writer subagent
 
 ### Claude Code Prompt
+
 ```
 Read CLAUDE.md, apps/api/CLAUDE.md.
 
@@ -314,11 +331,13 @@ When finished, go through the Phase 3 checklist in PHASE-PROMPTS.md and mark eve
 ---
 
 ## Phase 4: Paid Subscription & Dashboard
+
 Status: NOT STARTED
 
 ### Checklist
 
 **Backend**
+
 - [ ] Use api-documenter subagent for Billing endpoints
 - [ ] Prisma Subscription model (id, userId, stripeCustomerId, stripePriceId, stripeSubscriptionId, status, currentPeriodEnd)
 - [ ] Use db-architect subagent for Subscription model + indexes
@@ -334,6 +353,7 @@ Status: NOT STARTED
 - [ ] test-writer subagent
 
 **Frontend**
+
 - [ ] Pricing page: free vs paid feature comparison cards
 - [ ] Stripe Checkout redirect flow (POST to /billing/checkout → redirect to Stripe)
 - [ ] Success page + cancel page after Stripe redirect
@@ -343,6 +363,7 @@ Status: NOT STARTED
 - [ ] code-reviewer subagent + test-writer subagent
 
 ### Claude Code Prompt
+
 ```
 Read CLAUDE.md, apps/api/CLAUDE.md, apps/web/CLAUDE.md.
 
@@ -387,11 +408,13 @@ When finished, go through the Phase 4 checklist in PHASE-PROMPTS.md and mark eve
 ---
 
 ## Phase 5: Polish & Production Deploy
+
 Status: NOT STARTED
 
 ### Checklist
 
 **Docker & Infrastructure**
+
 - [ ] Multi-stage Dockerfile for apps/api (builder → production, no devDependencies in final image)
 - [ ] Multi-stage Dockerfile for apps/web (builder → production with standalone output)
 - [ ] docker-compose.yml: web, api, postgres, redis — hot reload, health checks, named volumes
@@ -400,26 +423,31 @@ Status: NOT STARTED
 - [ ] All env vars documented in .env.example (final pass)
 
 **CI/CD**
+
 - [ ] GitHub Actions: on PR → `pnpm check` (lint + typecheck + unit tests)
 - [ ] GitHub Actions: on push to main → build Docker images → push to AWS ECR
 - [ ] GitHub Actions: E2E tests against docker-compose test environment
 
 **Monitoring**
+
 - [ ] Sentry error monitoring in both apps/api and apps/web
 - [ ] Structured logging in api (pino or winston) — no console.log in production
 - [ ] Health check endpoint: GET /health (api) returning DB + Redis status
 
 **Quality**
+
 - [ ] Lighthouse audit — score ≥90 performance, ≥95 accessibility
 - [ ] Bundle analysis for apps/web (next build --analyze or @next/bundle-analyzer)
 - [ ] Final full Playwright E2E suite run
 - [ ] Final `pnpm check` from root
 
 **Docs**
+
 - [ ] README.md: setup, env vars, running locally, running tests, deploying
 - [ ] AWS deployment notes: ECS Fargate task definitions or EC2 + ECR setup
 
 ### Claude Code Prompt
+
 ```
 Read CLAUDE.md.
 
@@ -458,21 +486,25 @@ When finished, go through the Phase 5 checklist in PHASE-PROMPTS.md and mark eve
 Create these in `.claude/commands/` after Phase 0:
 
 **check-phase.md**
+
 ```
 Run pnpm check from repo root. If it fails, fix all errors before proceeding. Show me the full output.
 ```
 
 **swagger-first.md**
+
 ```
 Before implementing this endpoint, use the api-documenter subagent to create the Swagger-decorated controller skeleton. Do not write any implementation until I explicitly approve the API contract.
 ```
 
 **review-and-test.md**
+
 ```
 Run code-reviewer subagent on all files changed in this session. Then run test-writer subagent to add any missing tests. Then run pnpm check and show the result.
 ```
 
 **security-check.md**
+
 ```
 Run security-auditor subagent on the files touched in this session. Show all findings grouped by severity (Critical, High, Medium, Low).
 ```

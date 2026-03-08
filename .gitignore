@@ -1,6 +1,42 @@
-.env
-.env.development
-.env.production
+# Dependencies
+node_modules/
+.pnpm-store/
 
-node_modules
-dist
+# Build outputs
+.next/
+dist/
+.turbo/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Generated
+packages/contracts/src/index.ts
+openapi.json
+
+# Prisma
+apps/api/prisma/migrations/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Testing
+coverage/
+playwright-report/
+test-results/

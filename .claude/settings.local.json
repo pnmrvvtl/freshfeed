@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /d/Projects/freshfeed log --oneline -5)",
+      "Bash(git -C /d/Projects/freshfeed stash list)",
+      "Bash(git -C /d/Projects/freshfeed status --short)"
+    ]
+  }
+}
