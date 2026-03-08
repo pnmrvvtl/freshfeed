@@ -55,7 +55,7 @@ Backend:
 - [ ] Prisma Term model, Synonym model (self-referential)
 - [ ] Term module: CRUD
 - [ ] Synonym module: generate tree, get tree, delete node/branch
-- [ ] Effect.ts LLM service (local Ollama dev / remote prod)
+- [ ] LLM service (local Ollama dev / remote prod)
 - [ ] Level enforcement (2 free, 3 paid)
 - [ ] Swagger docs
 - [ ] Unit tests
@@ -78,8 +78,8 @@ Status: NOT STARTED
 Backend:
 - [ ] Prisma Article model, EmailLog model
 - [ ] Article module: fetch, store, list
-- [ ] Effect.ts RSS service (concurrent fetching, error accumulation)
-- [ ] Effect.ts Email service (template, scheduling, retry)
+- [ ] RSS service (concurrent fetching, error accumulation)
+- [ ] Email service (template, scheduling, retry)
 - [ ] @nestjs/schedule cron for weekly fetch + send
 - [ ] RSS sources: Google News, Reddit, HackerNews
 - [ ] Swagger docs
