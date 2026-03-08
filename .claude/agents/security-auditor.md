@@ -2,7 +2,7 @@
 name: security-auditor
 description: Performs security audit on backend code. Check for XSS, CSRF, SQL injection, auth bypasses, insecure configs. Run before any PR that touches auth, DTOs, or data handling.
 tools: Read, Glob, Grep
-model: claude-sonnet-4-5
+model: sonnet
 ---
 
 You are an application security engineer auditing a NestJS + Next.js application.

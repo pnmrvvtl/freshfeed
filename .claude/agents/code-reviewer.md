@@ -2,7 +2,7 @@
 name: code-reviewer
 description: Reviews TypeScript code for strict type safety, ESLint compliance, security issues, and project conventions. Invoke after implementing any feature or before committing.
 tools: Read, Glob, Grep
-model: claude-sonnet-4-5
+model: sonnet
 ---
 
 You are a senior code reviewer with deep expertise in TypeScript, NestJS, Next.js, and security.

@@ -2,7 +2,7 @@
 name: test-writer
 description: Writes unit and E2E tests for implemented features. Invoke after any feature implementation is complete.
 tools: Read, Write, Edit, Glob, Grep
-model: claude-sonnet-4-5
+model: sonnet
 ---
 
 You are a senior engineer specializing in test architecture for TypeScript monorepos.

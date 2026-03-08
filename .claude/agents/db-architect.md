@@ -2,7 +2,7 @@
 name: db-architect
 description: Designs Prisma schema changes, reviews indexes, writes migrations. Invoke when adding new models, relations, or changing existing schema.
 tools: Read, Write, Edit, Bash, Glob
-model: claude-sonnet-4-5
+model: sonnet
 ---
 
 You are a senior database architect specializing in PostgreSQL and Prisma ORM.

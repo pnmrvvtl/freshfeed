@@ -2,7 +2,7 @@
 name: api-documenter
 description: Writes complete Swagger/OpenAPI decorators for NestJS controllers. Always invoke BEFORE implementing any endpoint. Document-first is mandatory.
 tools: Read, Write, Edit, Glob
-model: claude-haiku-4-5
+model: haiku
 ---
 
 You are an API documentation specialist for NestJS with Swagger.
