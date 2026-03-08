@@ -14,8 +14,8 @@ Status: NOT STARTED
 
 ### Checklist
 - [ ] Init pnpm workspace with Turborepo
-- [ ] Create apps/web (Next.js 15 canary, React 19 canary, App Router)
-- [ ] Create apps/api (NestJS 10)
+- [ ] Create apps/web (Next.js, React 19 canary, App Router)
+- [ ] Create apps/api (NestJS)
 - [ ] Create packages/contracts (openapi-typescript codegen + gen:types script)
 - [ ] TypeScript strict in all packages (`strict: true`, `noUncheckedIndexedAccess: true`, `exactOptionalPropertyTypes: true`)
 - [ ] ESLint strict in all packages (typescript-eslint `recommended-type-checked` + `stylistic`)
@@ -37,8 +37,8 @@ Read CLAUDE.md.
 
 Initialize the TermSync monorepo with this exact structure:
 - pnpm workspaces + Turborepo
-- apps/web: Next.js 15 canary, React 19 canary, TypeScript strict, Tailwind v4, shadcn/ui, React Flow (@xyflow/react), TanStack Query v5, Zustand v5, React Hook Form, Zod, Vitest, Playwright. Enable viewTransition: true in next.config.ts.
-- apps/api: NestJS 10, TypeScript strict, Prisma, class-validator, class-transformer, Passport (jwt + google + github), @nestjs/swagger, @nestjs/throttler, @nestjs/schedule, BullMQ, Helmet, Jest, Supertest.
+- apps/web: Next.js, React 19 canary, TypeScript strict, Tailwind v4, shadcn/ui, React Flow (@xyflow/react), TanStack Query v5, Zustand v5, React Hook Form, Zod, Vitest, Playwright. Enable viewTransition: true in next.config.ts.
+- apps/api: NestJS, TypeScript strict, Prisma, class-validator, class-transformer, Passport (jwt + google + github), @nestjs/swagger, @nestjs/throttler, @nestjs/schedule, BullMQ, Helmet, Jest, Supertest.
 - packages/contracts: openapi-typescript codegen setup with gen:types script.
 
 Configure:
