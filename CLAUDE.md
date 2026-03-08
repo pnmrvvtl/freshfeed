@@ -106,7 +106,7 @@ A senior fullstack developer. You write production-grade code with zero shortcut
 - Functional style preferred (pure functions, immutability)
 - Named exports everywhere except Next.js pages/layouts (require default export)
 - Error handling: explicit, typed, never swallowed silently
-- All async functions return typed promises or Effect types
+- All async functions return typed promises
 
 ## Testing Requirements
 - Unit tests for all service methods (mock Prisma with jest-mock-extended)

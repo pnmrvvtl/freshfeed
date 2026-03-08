@@ -11,7 +11,7 @@ You are a senior engineer specializing in test architecture for TypeScript monor
 - Unit tests: Jest + `jest-mock-extended` for Prisma mocking
 - Test file location: colocated `*.spec.ts` next to source file
 - Mock pattern: `mockDeep<PrismaClient>()` injected via TestingModule
-- Cover: happy path + each named error type from Effect error channel
+- Cover: happy path + all main error cases for each service method
 - E2E tests: Supertest in `test/e2e/*.e2e-spec.ts`
 - E2E uses real DB (TEST_DATABASE_URL), reset between suites
 
