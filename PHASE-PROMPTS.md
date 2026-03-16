@@ -17,8 +17,8 @@ Status: COMPLETE
 ### Checklist
 
 - [x] Init pnpm workspace with Turborepo
-- [x] Create apps/web (Next.js, React 19 canary, App Router)
-- [x] Create apps/api (NestJS)
+- [x] Create apps/front (Next.js, React 19 canary, App Router)
+- [x] Create apps/back (NestJS)
 - [x] Create packages/contracts (openapi-typescript codegen + gen:types script)
 - [x] TypeScript strict in all packages (`strict: true`, `noUncheckedIndexedAccess: true`, `exactOptionalPropertyTypes: true`)
 - [x] ESLint strict in all packages (typescript-eslint `recommended-type-checked` + `stylistic`)
@@ -26,9 +26,9 @@ Status: COMPLETE
 - [x] Husky: pre-commit (lint + typecheck), pre-push (full pnpm check)
 - [x] Root turbo.json with lint, typecheck, test:unit, build, check pipelines
 - [x] Root package.json scripts: lint, typecheck, test:unit, check, build, gen:types
-- [x] apps/web: Tailwind v4, shadcn/ui, React Flow (@xyflow/react), TanStack Query v5, Zustand v5, React Hook Form, Zod, Vitest, Playwright
-- [x] apps/web: `viewTransition: true` in next.config.ts
-- [x] apps/api: Prisma, class-validator, class-transformer, Passport (jwt + google + github), @nestjs/swagger, @nestjs/throttler, @nestjs/schedule, BullMQ, Helmet, Jest, Supertest
+- [x] apps/front: Tailwind v4, shadcn/ui, React Flow (@xyflow/react), TanStack Query v5, Zustand v5, React Hook Form, Zod, Vitest, Playwright
+- [x] apps/front: `viewTransition: true` in next.config.ts
+- [x] apps/back: Prisma, class-validator, class-transformer, Passport (jwt + google + github), @nestjs/swagger, @nestjs/throttler, @nestjs/schedule, BullMQ, Helmet, Jest, Supertest
 - [x] docker-compose.yml with PostgreSQL 16 + Redis 7 (health checks included)
 - [x] Prisma init with base User model
 - [x] Verify: `pnpm check` passes on empty scaffolding
@@ -41,8 +41,8 @@ Read CLAUDE.md.
 
 Initialize the TermSync monorepo with this exact structure:
 - pnpm workspaces + Turborepo
-- apps/web: Next.js, React 19 canary, TypeScript strict, Tailwind v4, shadcn/ui, React Flow (@xyflow/react), TanStack Query v5, Zustand v5, React Hook Form, Zod, Vitest, Playwright. Enable viewTransition: true in next.config.ts.
-- apps/api: NestJS, TypeScript strict, Prisma, class-validator, class-transformer, Passport (jwt + google + github), @nestjs/swagger, @nestjs/throttler, @nestjs/schedule, BullMQ, Helmet, Jest, Supertest.
+- apps/front: Next.js, React 19 canary, TypeScript strict, Tailwind v4, shadcn/ui, React Flow (@xyflow/react), TanStack Query v5, Zustand v5, React Hook Form, Zod, Vitest, Playwright. Enable viewTransition: true in next.config.ts.
+- apps/back: NestJS, TypeScript strict, Prisma, class-validator, class-transformer, Passport (jwt + google + github), @nestjs/swagger, @nestjs/throttler, @nestjs/schedule, BullMQ, Helmet, Jest, Supertest.
 - packages/contracts: openapi-typescript codegen setup with gen:types script.
 
 Configure:
@@ -64,68 +64,68 @@ When finished, go through the Phase 0 checklist in PHASE-PROMPTS.md and mark eve
 
 ## Phase 1: Authentication
 
-Status: NOT STARTED
+Status: COMPLETE
 
 ### Checklist
 
 **Backend**
 
-- [ ] Prisma User model (id, email, passwordHash, name, provider, providerId, role, emailVerified, createdAt, updatedAt)
-- [ ] Prisma RefreshToken model with hashed storage
-- [ ] Use db-architect subagent for schema review before migration
-- [ ] Swagger-decorated controller skeletons created by api-documenter subagent BEFORE implementation:
-  - [ ] POST /auth/register
-  - [ ] POST /auth/login
-  - [ ] POST /auth/logout
-  - [ ] POST /auth/refresh
-  - [ ] GET /auth/me
-  - [ ] GET /auth/google + GET /auth/google/callback
-  - [ ] GET /auth/github + GET /auth/github/callback
-  - [ ] POST /auth/verify-email
-  - [ ] POST /auth/resend-verification
-- [ ] AuthModule: register (email+password), bcrypt 12 rounds
-- [ ] AuthModule: login with httpOnly cookie (access 15min + refresh 7d)
-- [ ] Refresh token rotation (invalidate old on use)
-- [ ] Passport JWT strategy
-- [ ] Passport Google OAuth2 strategy
-- [ ] Passport GitHub OAuth2 strategy
-- [ ] JwtAuthGuard, RolesGuard, SubscriptionGuard (stubs)
-- [ ] @CurrentUser(), @Public(), @RequireSubscription() decorators
-- [ ] GlobalExceptionFilter
-- [ ] TransformInterceptor wrapping responses in `{ data, meta }`
-- [ ] Global: Helmet, CORS (whitelist), ThrottlerModule (auth endpoints: 10 req/min)
-- [ ] Global ValidationPipe (whitelist: true, forbidNonWhitelisted: true, transform: true)
-- [ ] Email verification BullMQ job (welcome + verify-email templates)
-- [ ] Unit tests for AuthService (jest-mock-extended for Prisma)
-- [ ] E2E tests for all auth endpoints (Supertest)
-- [ ] code-reviewer subagent run on all new files
-- [ ] security-auditor subagent run on auth module
+- [x] Prisma User model (id, email, passwordHash, name, provider, providerId, role, emailVerified, createdAt, updatedAt)
+- [x] Prisma RefreshToken model with hashed storage
+- [x] Use db-architect subagent for schema review before migration
+- [x] Swagger-decorated controller skeletons created by api-documenter subagent BEFORE implementation:
+  - [x] POST /auth/register
+  - [x] POST /auth/login
+  - [x] POST /auth/logout
+  - [x] POST /auth/refresh
+  - [x] GET /auth/me
+  - [x] GET /auth/google + GET /auth/google/callback
+  - [x] GET /auth/github + GET /auth/github/callback
+  - [x] POST /auth/verify-email
+  - [x] POST /auth/resend-verification
+- [x] AuthModule: register (email+password), bcrypt 12 rounds
+- [x] AuthModule: login with httpOnly cookie (access 15min + refresh 7d)
+- [x] Refresh token rotation (invalidate old on use)
+- [x] Passport JWT strategy
+- [x] Passport Google OAuth2 strategy
+- [x] Passport GitHub OAuth2 strategy
+- [x] JwtAuthGuard, RolesGuard, SubscriptionGuard (stubs)
+- [x] @CurrentUser(), @Public(), @RequireSubscription() decorators
+- [x] GlobalExceptionFilter
+- [x] TransformInterceptor wrapping responses in `{ data, meta }`
+- [x] Global: Helmet, CORS (whitelist), ThrottlerModule (auth endpoints: 10 req/min)
+- [x] Global ValidationPipe (whitelist: true, forbidNonWhitelisted: true, transform: true)
+- [x] Email verification BullMQ job (welcome + verify-email templates)
+- [x] Unit tests for AuthService (jest-mock-extended for Prisma)
+- [x] E2E tests for all auth endpoints (Supertest)
+- [x] code-reviewer subagent run on all new files
+- [x] security-auditor subagent run on auth module
 
 **Frontend**
 
-- [ ] Generate OpenAPI types: `pnpm gen:types`
-- [ ] middleware.ts protecting `(protected)` and `(paid)` route groups (edge runtime, jose)
-- [ ] entities/user: User type from contracts, Zustand store (user + subscription)
-- [ ] entities/user: useSession() TanStack Query hook (revalidates on focus)
-- [ ] Base API client in shared/api/client.ts (credentials: include, 401 → refresh → retry)
-- [ ] features/auth: login form (React Hook Form + Zod)
-- [ ] features/auth: register form (React Hook Form + Zod)
-- [ ] features/auth: Google + GitHub OAuth buttons
-- [ ] features/auth: email verification page
-- [ ] Redirect logic after login/logout
-- [ ] Basic layout: Header with user menu (auth state aware)
-- [ ] Unit tests for auth store and useSession hook
-- [ ] code-reviewer subagent run on all new frontend files
+- [x] Generate OpenAPI types: `pnpm gen:types`
+- [x] middleware.ts protecting `(protected)` and `(paid)` route groups (edge runtime, jose)
+- [x] entities/user: User type from contracts, Zustand store (user + subscription)
+- [x] entities/user: useSession() TanStack Query hook (revalidates on focus)
+- [x] Base API client in shared/api/client.ts (credentials: include, 401 → refresh → retry)
+- [x] features/auth: login form (React Hook Form + Zod)
+- [x] features/auth: register form (React Hook Form + Zod)
+- [x] features/auth: Google + GitHub OAuth buttons
+- [x] features/auth: email verification page
+- [x] Redirect logic after login/logout
+- [x] Basic layout: Header with user menu (auth state aware)
+- [x] Unit tests for auth store and useSession hook
+- [x] code-reviewer subagent run on all new frontend files
 
 **Shared**
 
-- [ ] OpenAPI types regenerated after all endpoints finalized
-- [ ] Frontend api-client uses types exclusively from @termsync/contracts
+- [x] OpenAPI types regenerated after all endpoints finalized
+- [x] Frontend api-client uses types exclusively from @termsync/contracts
 
 ### Claude Code Prompt
 
 ```
-Read CLAUDE.md and apps/api/CLAUDE.md.
+Read CLAUDE.md and apps/back/CLAUDE.md.
 
 Step 1 — use the api-documenter subagent to create Swagger-decorated controller skeletons for these auth endpoints (do NOT implement yet, wait for approval):
 POST /auth/register, POST /auth/login, POST /auth/logout, POST /auth/refresh, GET /auth/me,
@@ -150,7 +150,7 @@ Step 4 — use code-reviewer subagent on all new backend files.
 Step 5 — use test-writer subagent: unit tests for AuthService + E2E tests for all auth endpoints.
 Step 6 — use security-auditor subagent on the entire auth module.
 
-Step 7 — Frontend. Read apps/web/CLAUDE.md:
+Step 7 — Frontend. Read apps/front/CLAUDE.md:
 1. middleware.ts protecting (protected) and (paid) route groups using jose (edge-compatible JWT verify)
 2. entities/user: Zustand store + useSession() TanStack Query hook
 3. Base API client: shared/api/client.ts with credentials:include + 401 refresh retry
@@ -206,7 +206,7 @@ Status: NOT STARTED
 ### Claude Code Prompt
 
 ```
-Read CLAUDE.md, apps/api/CLAUDE.md, apps/web/CLAUDE.md.
+Read CLAUDE.md, apps/back/CLAUDE.md, apps/front/CLAUDE.md.
 
 Step 1 — use api-documenter subagent for these endpoints (approve before implementing):
 GET /terms, POST /terms, DELETE /terms/:id
@@ -287,7 +287,7 @@ Status: NOT STARTED
 ### Claude Code Prompt
 
 ```
-Read CLAUDE.md, apps/api/CLAUDE.md.
+Read CLAUDE.md, apps/back/CLAUDE.md.
 
 Step 1 — use api-documenter subagent for:
 GET /search?termId=&refresh=  (manual trigger, returns cached or fresh articles)
@@ -365,7 +365,7 @@ Status: NOT STARTED
 ### Claude Code Prompt
 
 ```
-Read CLAUDE.md, apps/api/CLAUDE.md, apps/web/CLAUDE.md.
+Read CLAUDE.md, apps/back/CLAUDE.md, apps/front/CLAUDE.md.
 
 Step 1 — use api-documenter subagent for:
 POST /billing/checkout         (create Stripe Checkout session)
@@ -415,8 +415,8 @@ Status: NOT STARTED
 
 **Docker & Infrastructure**
 
-- [ ] Multi-stage Dockerfile for apps/api (builder → production, no devDependencies in final image)
-- [ ] Multi-stage Dockerfile for apps/web (builder → production with standalone output)
+- [ ] Multi-stage Dockerfile for apps/back (builder → production, no devDependencies in final image)
+- [ ] Multi-stage Dockerfile for apps/front (builder → production with standalone output)
 - [ ] docker-compose.yml: web, api, postgres, redis — hot reload, health checks, named volumes
 - [ ] docker-compose.prod.yml: no source mounts, resource limits (memory/cpu), restart policies
 - [ ] Prisma `migrate deploy` in api container entrypoint (before app starts)
@@ -430,14 +430,14 @@ Status: NOT STARTED
 
 **Monitoring**
 
-- [ ] Sentry error monitoring in both apps/api and apps/web
+- [ ] Sentry error monitoring in both apps/back and apps/front
 - [ ] Structured logging in api (pino or winston) — no console.log in production
 - [ ] Health check endpoint: GET /health (api) returning DB + Redis status
 
 **Quality**
 
 - [ ] Lighthouse audit — score ≥90 performance, ≥95 accessibility
-- [ ] Bundle analysis for apps/web (next build --analyze or @next/bundle-analyzer)
+- [ ] Bundle analysis for apps/front (next build --analyze or @next/bundle-analyzer)
 - [ ] Final full Playwright E2E suite run
 - [ ] Final `pnpm check` from root
 
@@ -452,8 +452,8 @@ Status: NOT STARTED
 Read CLAUDE.md.
 
 Step 1 — Multi-stage Dockerfiles:
-- apps/api: stage 1 (builder): install all deps, generate Prisma client, build. Stage 2 (production): copy dist + node_modules (prod only) + prisma schema. Entrypoint: prisma migrate deploy && node dist/main
-- apps/web: stage 1 (builder): install deps, next build (output: standalone). Stage 2 (production): copy .next/standalone + .next/static + public. Use next/standalone for minimal image.
+- apps/back: stage 1 (builder): install all deps, generate Prisma client, build. Stage 2 (production): copy dist + node_modules (prod only) + prisma schema. Entrypoint: prisma migrate deploy && node dist/main
+- apps/front: stage 1 (builder): install deps, next build (output: standalone). Stage 2 (production): copy .next/standalone + .next/static + public. Use next/standalone for minimal image.
 
 Step 2 — docker-compose.yml update:
 Add web and api services with build context. Hot reload via volume mounts. Health checks: api (GET /health), postgres (pg_isready), redis (redis-cli ping). Named volumes for postgres data.
@@ -473,7 +473,7 @@ Step 6 — Sentry: add @sentry/nestjs to api, @sentry/nextjs to web. Configure v
 Step 7 — replace any console.log in api with pino logger (nestjs-pino). Structured JSON output in production.
 
 Step 8 — run full Playwright E2E suite against docker-compose environment.
-Step 9 — run Lighthouse CI on apps/web.
+Step 9 — run Lighthouse CI on apps/front.
 Step 10 — write README.md covering: prerequisites, local setup, env vars, pnpm check, docker compose up, deploying to AWS.
 
 When finished, go through the Phase 5 checklist in PHASE-PROMPTS.md and mark every completed item [x]. Then run `pnpm check` and `docker compose up` and confirm everything is healthy.

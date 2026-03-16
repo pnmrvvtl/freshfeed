@@ -1,9 +1,26 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git -C /d/Projects/freshfeed log --oneline -5)",
-      "Bash(git -C /d/Projects/freshfeed stash list)",
-      "Bash(git -C /d/Projects/freshfeed status --short)"
+      "Bash(pnpm lint)",
+      "Bash(pnpm check)",
+      "Bash(pnpm typecheck)",
+      "Bash(pnpm gen:types)",
+      "Bash(npx tsc --noEmit -p test/tsconfig.json)",
+      "Bash(pnpm test:unit)"
+    ],
+    "deny": [
+      "Bash(git:*)",
+      "Read(.env*)",
+      "Write(.env*)",
+      "Read(apps/back/.env*)",
+      "Write(apps/back/.env*)",
+      "Read(apps/front/.env*)",
+      "Write(apps/front/.env*)",
+      "Bash(cat .env*)",
+      "Bash(less .env*)",
+      "Bash(more .env*)",
+      "Bash(head .env*)",
+      "Bash(tail .env*)"
     ]
   }
 }

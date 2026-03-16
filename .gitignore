@@ -17,7 +17,7 @@ packages/contracts/src/index.ts
 openapi.json
 
 # Prisma
-apps/api/prisma/migrations/
+apps/back/prisma/migrations/
 
 # OS
 .DS_Store
