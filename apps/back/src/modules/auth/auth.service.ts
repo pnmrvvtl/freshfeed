@@ -57,7 +57,6 @@ export class AuthService {
     }
 
     const passwordHash = await bcrypt.hash(dto.password, BCRYPT_ROUNDS)
-    const verificationToken = crypto.randomBytes(32).toString('hex')
 
     let user: UserResponseDto
 
@@ -93,6 +92,14 @@ export class AuthService {
     } catch (cause) {
       throw new DatabaseError(cause)
     }
+
+    const verificationToken = this.jwtService.sign(
+      { sub: user.id, type: 'email-verification' },
+      {
+        secret: this.configService.get('JWT_ACCESS_SECRET', { infer: true }),
+        expiresIn: '24h',
+      },
+    )
 
     await this.emailQueue.add(
       'verify-email',

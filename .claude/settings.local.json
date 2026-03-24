@@ -6,7 +6,20 @@
       "Bash(pnpm typecheck)",
       "Bash(pnpm gen:types)",
       "Bash(npx tsc --noEmit -p test/tsconfig.json)",
-      "Bash(pnpm test:unit)"
+      "Bash(pnpm test:unit)",
+      "Bash(find /d/Projects/freshfeed/apps/back/src/modules/users -type f -name *.ts)",
+      "Bash(find /d/Projects/freshfeed/apps/back/src/common -type f -name *.ts)",
+      "Bash(find /d/Projects/freshfeed/apps/back/test -type f -name *.ts)",
+      "Bash(ls -la d:/Projects/freshfeed/apps/back/.env*)",
+      "Bash(ls -la d:/Projects/freshfeed/apps/front/.env*)",
+      "Bash(find d:/Projects/freshfeed/apps/front/src/entities -name *.ts -o -name *.tsx)",
+      "Bash(xargs grep:*)",
+      "Bash(pnpm --filter @termsync/api test:e2e)",
+      "Bash(docker info:*)",
+      "Bash(docker compose:*)",
+      "Bash(pnpm exec:*)",
+      "Bash(pnpm --filter @termsync/front test:e2e)",
+      "Bash(pnpm test:e2e)"
     ],
     "deny": [
       "Bash(git:*)",

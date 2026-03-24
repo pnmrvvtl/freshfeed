@@ -7,6 +7,7 @@
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test:unit": "turbo run test:unit",
+    "test:e2e": "bash scripts/test-e2e.sh",
     "check": "turbo run check",
     "gen:types": "turbo run gen:types --filter=@termsync/contracts",
     "format": "prettier --write \"**/*.{ts,tsx,js,json,css,md}\" --ignore-path .gitignore",

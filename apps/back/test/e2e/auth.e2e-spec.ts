@@ -269,6 +269,115 @@ describe('Auth (e2e)', () => {
     })
   })
 
+  describe('POST /auth/verify-email', () => {
+    it('returns 200 and marks user as verified when token is valid', async () => {
+      const userId = 'verify-user-e2e'
+      const token = jwtService.sign(
+        { sub: userId, type: 'email-verification' },
+        { secret: TEST_ACCESS_SECRET, expiresIn: '24h' },
+      )
+      prisma.user.findUnique.mockResolvedValue(makeDbUser({ id: userId, emailVerified: false }))
+      prisma.user.update.mockResolvedValue(makeDbUser({ id: userId, emailVerified: true }))
+
+      await request(app.getHttpServer()).post('/auth/verify-email').send({ token }).expect(200)
+
+      expect(prisma.user.update).toHaveBeenCalledWith({
+        where: { id: userId },
+        data: { emailVerified: true },
+      })
+    })
+
+    it('returns 400 when the token string is not a valid JWT', async () => {
+      await request(app.getHttpServer())
+        .post('/auth/verify-email')
+        .send({ token: 'not-a-valid-jwt-token' })
+        .expect(400)
+    })
+
+    it('returns 400 when the token has the wrong type claim', async () => {
+      const token = jwtService.sign(
+        { sub: 'user-e2e-1', type: 'access' },
+        { secret: TEST_ACCESS_SECRET },
+      )
+
+      await request(app.getHttpServer()).post('/auth/verify-email').send({ token }).expect(400)
+    })
+  })
+
+  describe('Full email/password registration flow', () => {
+    it('register → login blocked before verify → verify email → login → GET /me', async () => {
+      const email = 'fullflow@e2e.test'
+      const password = 'FlowPass1!'
+      const userId = 'fullflow-user-e2e'
+
+      prisma.user.findUnique.mockResolvedValueOnce(null)
+      mockedBcrypt.hash.mockResolvedValue('hashed-pw' as never)
+      prisma.user.create.mockResolvedValue(
+        makeDbUser({ id: userId, email, name: 'Flow User', emailVerified: false }),
+      )
+
+      const registerRes = await request(app.getHttpServer())
+        .post('/auth/register')
+        .send({ email, password, name: 'Flow User' })
+        .expect(201)
+
+      expect(registerRes.body.data.email).toBe(email)
+      expect(registerRes.body.data.emailVerified).toBe(false)
+
+      prisma.user.findUnique.mockResolvedValueOnce(
+        makeDbUser({ id: userId, email, emailVerified: false }),
+      )
+      mockedBcrypt.compare.mockResolvedValueOnce(true as never)
+
+      await request(app.getHttpServer()).post('/auth/login').send({ email, password }).expect(403)
+
+      const verificationToken = jwtService.sign(
+        { sub: userId, type: 'email-verification' },
+        { secret: TEST_ACCESS_SECRET, expiresIn: '24h' },
+      )
+      prisma.user.findUnique.mockResolvedValueOnce(
+        makeDbUser({ id: userId, email, emailVerified: false }),
+      )
+      prisma.user.update.mockResolvedValue(makeDbUser({ id: userId, email, emailVerified: true }))
+
+      await request(app.getHttpServer())
+        .post('/auth/verify-email')
+        .send({ token: verificationToken })
+        .expect(200)
+
+      prisma.user.findUnique.mockResolvedValueOnce(
+        makeDbUser({ id: userId, email, emailVerified: true }),
+      )
+      mockedBcrypt.compare.mockResolvedValueOnce(true as never)
+
+      const loginRes = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({ email, password })
+        .expect(200)
+
+      expect(loginRes.body.data.email).toBe(email)
+      expect(loginRes.body.data.emailVerified).toBe(true)
+      expect(loginRes.body.data.role).toBe(Role.FREE)
+      const setCookie = loginRes.headers['set-cookie'] as unknown as string[]
+      expect(setCookie.some((c) => c.startsWith('access_token='))).toBe(true)
+      expect(setCookie.some((c) => c.startsWith('refresh_token='))).toBe(true)
+
+      prisma.user.findUnique.mockResolvedValueOnce(
+        makeDbUser({ id: userId, email, emailVerified: true }),
+      )
+
+      const meRes = await request(app.getHttpServer())
+        .get('/auth/me')
+        .set('Cookie', setCookie)
+        .expect(200)
+
+      expect(meRes.body.data.id).toBe(userId)
+      expect(meRes.body.data.email).toBe(email)
+      expect(meRes.body.data.emailVerified).toBe(true)
+      expect(meRes.body.data.role).toBe(Role.FREE)
+    })
+  })
+
   describe('POST /auth/refresh', () => {
     it('returns 200 and issues new cookies when the refresh token is valid', async () => {
       const refreshToken = jwtService.sign(

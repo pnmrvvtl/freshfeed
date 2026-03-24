@@ -136,3 +136,26 @@ A senior fullstack developer. You write production-grade code with zero shortcut
 - docker-compose.prod.yml for production (no source mounts)
 - Health checks on all containers
 - AWS deployment target: ECS Fargate or EC2 + ECR
+
+## Autonomous Quality Gates
+
+Run these in sequence after every non-trivial change, before marking any task done:
+
+1. `pnpm check` — must pass with zero errors and zero warnings
+2. After any endpoint change: run /swagger-first then /check-phase
+3. After any feature: run /review-and-test
+4. After auth, DTO, or data handling changes: run /security-check
+5. If Docker is running: run `pnpm test:e2e` and report the result
+
+If all gates pass — proceed and report "all gates green". Do NOT ask for approval on routine implementation.
+If a gate fails and the fix is non-obvious — stop and escalate to the user.
+
+## Mandatory User Approval (ALWAYS ask before proceeding)
+
+These five categories require explicit user confirmation every time, no exceptions:
+
+1. **Prisma migrations** — any `prisma migrate` command or schema change that alters existing columns/tables (data loss risk)
+2. **Auth or security logic changes** — any edit to JWT handling, cookie config, Passport strategies, guards, or token rotation
+3. **Stripe or billing logic** — any change to webhook handlers, subscription status writes, or payment flows
+4. **`docker-compose.prod.yml` or production config** — any change to the production deployment stack or env var defaults
+5. **New environment variables** — any addition to `.env.example` or ConfigModule schema that requires ops action to deploy
